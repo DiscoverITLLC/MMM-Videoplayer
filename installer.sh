@@ -65,7 +65,7 @@ MODULE_NAME=MMM-Videoplayer
 FORK=DiscoverITLLC
 
 # check if we are correct by searching for https://github.com/DiscoverITLLC/System in package.json
-TEST_STRING="\"url\": \"git+https://github.com/DiscoverITLLC/System.git\""
+TEST_STRING="\"url\": \"git+https://github.com/DiscoverITLLC/MagicMirror\""
 if grep -sq "$TEST_STRING" "$MM_HOME/package.json"; then
     # we found it
     echo -n ""
