@@ -189,6 +189,7 @@ fi
 echo "Have fun with the module, if you have any problems, please search for help on github or in the forum:"
 echo ""
 echo "   Github : https://github.com/$FORK/$MODULE_NAME"
+echo "   forum : "
 echo ""
 echo "Do not forget to restart your System to activate the module! Installation finished."
 echo ""
