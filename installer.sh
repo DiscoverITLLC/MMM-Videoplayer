@@ -55,8 +55,8 @@ fi
 
 # assume default install location
 MM_HOME=$HOME/MagicMirror
-MODULE_NAME=MMM-BackgroundSlideshow
-FORK=Jopyth
+MODULE_NAME=MMM-Videoplayer
+FORK=DiscoverITLLC
 
 # check if we are correct by searching for https://github.com/DiscoverITLLC/MagicMirror in package.json
 TEST_STRING="\"url\": \"git+https://github.com/DiscoverITLLC/MagicMirror.git\""
@@ -149,15 +149,54 @@ else
             fi
             cd $MODULE_NAME
 
+            echo ""
+            echo "Installing dependencies..."
+            echo ""
+            npm install
+            if [ $? -ne 0 ]; then
+                echo "Failed to install dependencies."
+                exit 1;
+            fi
+            echo "Done."
+            echo ""
+            echo "Installation finished."
+    else
+        echo "Installation skipped."
+    fi
+fi
+
+# Get an UUID to use as an API key
+NODE_BIN=$(which node)
+APIKEY=$($NODE_BIN -e 'console.log(require("uuid/v4")().replace(/-/g, ""));');
+
 echo ""
 if check_no "Do you want to view instructions on how to configure the module?"; then
     echo "(1) Please add the following snippet into your modules array in your config.js:"
-    echo -e ""
-    echo -e ""
+    echo -e "\033[33m    -------------- copy below this line --------------"
+    echo -e "    {"
+    echo -e "        module: '$MODULE_NAME'",
+    echo -e "        // uncomment the following line to show the URL of the remote control on the mirror"
+    echo -e "        // position: 'bottom_left'",
+    echo -e "        // you can hide this module afterwards from the remote control itself"
+    echo -e "        config: {"
+    echo -e "\033[31m            apiKey: '$APIKEY'\033[33m"
     echo -e "        }"
     echo -e "    },"
-    echo -e " "
+    echo -e "    -------------- copy above this line --------------\033[0m"
     echo ""
+    echo "(2) Also you will need to change the address at which the server listens:"
+    echo "    Search for the following line in  your config.js:"
+    echo "            address: \"localhost\","
+    echo "    and change it to allow any device to contact your Mirror:"
+    echo "            address: \"0.0.0.0\","
+    echo ""
+    echo "(3) Make sure to add the IPs of your devices from which you want to access the Remote Control to the ipWhitelist array."
+    echo "    If for example have a phone with the IP address 192.168.0.50 search for the following line:"
+    echo "            ipWhitelist: [\"127.0.0.1\", \"::ffff:127.0.0.1\", \"::1\"],"
+    echo "    and add your IP to the list:"
+    echo "            ipWhitelist: [\"127.0.0.1\", \"::ffff:127.0.0.1\", \"::1\", \"::ffff:192.168.0.50\"],"
+    echo "    Alternatively, you can also add multiple devices with IPs such as 192.168.0.XXX:"
+    echo "            ipWhitelist: [\"127.0.0.1\", \"::ffff:127.0.0.1\", \"::1\", \"::ffff:192.168.0.1/120\", \"192.168.0.1/24\"],"
     echo ' ______                        __                __  __                  __ '
 echo '|      \                      |  \              |  \|  \                |  \'
 echo ' \$$$$$$ _______    _______  _| $$_     ______  | $$| $$  ______    ____| $$'
@@ -180,7 +219,7 @@ else
     echo ""
     echo -e "\033[31mYou should also set an API key in your config section!\033[0m"
     echo "  It's dangerous to go alone! Take this. "
-    echo -e ""
+    echo -e "\033[31m  apiKey: '$APIKEY'\033[0m"
     echo "  I made it just for you."
     echo ""
 fi
