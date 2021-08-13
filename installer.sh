@@ -158,28 +158,10 @@ else
             echo ""
             echo "Installing dependencies..."
             echo ""
-            npm install
-            if [ $? -ne 0 ]; then
-                echo "Failed to install dependencies."
-                exit 1;
-            fi
-            echo "Done."
-            echo ""
-            echo "Installation finished."
-    else
-        echo "Installation skipped."
-    fi
-fi
 
-# Get an UUID to use as an API key
-NODE_BIN=$(which node)
-APIKEY=$($NODE_BIN -e 'console.log(require("uuid/v4")().replace(/-/g, ""));');
 
 echo ""
 if check_no "Do you want to view instructions on how to configure the module?"; then
-    echo "(1) Please add the following snippet into your modules array in your config.js:"
-    echo -e "\033[33m    -------------- copy below this line --------------"
-    echo -e "    -------------- copy above this line --------------\033[0m"
     echo ""
 echo ' ______                        __                __  __                  __ '
 echo '|      \                      |  \              |  \|  \                |  \'
@@ -202,10 +184,6 @@ echo ""
     fi
 else
     echo ""
-    echo -e "\033[31mYou should also set an API key in your config section!\033[0m"
-    echo "  It's dangerous to go alone! Take this. "
-    echo -e "\033[31m  apiKey: '$APIKEY'\033[0m"
-    echo "  I made it just for you."
     echo ""
 fi
 echo "Have fun with the module, if you have any problems, please search for help on github or in the forum:"
