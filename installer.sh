@@ -37,23 +37,6 @@ MM_HOME=$HOME/MagicMirror
 MODULE_NAME=MMM-Videoplayer
 FORK=DiscoverITLLC
 
-# check if we are correct by searching for https://github.com/DiscoverITLLC/MagicMirror in package.json
-TEST_STRING="\"url\": \"git+https://github.com/DiscoverITLLC/MagicMirror.git\""
-if grep -sq "$TEST_STRING" "$MM_HOME/package.json"; then
-    # we found it
-    echo -n ""
-else
-    # assume we are in the correct directory
-    MM_HOME=`pwd`
-    if grep -sq "$TEST_STRING" "$MM_HOME/package.json"; then
-        # found it again
-        echo -n ""
-    else
-        echo "Could not find MagicMirror2 installation directory."
-        echo "Please start this script again from the MagicMirror directory."
-        exit 1
-    fi
-fi
 
 if [ -d "$MM_HOME/modules/$MODULE_NAME" ] ; then
     # already installed
